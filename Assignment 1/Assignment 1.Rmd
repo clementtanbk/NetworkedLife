@@ -1,10 +1,13 @@
 ---
 title: "Assignment 1"
-author: "Daniel Bok, Wong Yan Yee, Clement Tan (1001049, )"
-date: "24 January 2017"
+author:
+- Daniel Bok    (1001049)
+- Wong Yan Yee  (1001212)
+- Clement Tan   (1000948)
+date: '`r format(Sys.time(), "%d %B %Y")`'
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
