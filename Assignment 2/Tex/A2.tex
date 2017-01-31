@@ -1,0 +1,90 @@
+\documentclass[]{article}
+
+\usepackage{
+	amsmath, 
+	amssymb,
+	bera,
+	parskip
+}
+
+\title{Assignment 2 ReadMe}
+\author{
+	Daniel Bok \\
+	ESD \\
+	1001049 \\
+	daniel\_bok@mymail.sutd.edu.sg 
+	\and
+	Wong Yan Yee\\ 
+	ISTD \\
+	1001212 \\
+	yanyee\_wong@mymail.sutd.edu.sg
+	\and
+	Clement Tan \\
+	ESD \\
+	1000948 \\
+	clement\_tan@mymail.sutd.edu.sg
+}
+\date{\today}
+
+\begin{document}
+	
+\maketitle
+	
+\section{Part 3 Derivation}
+
+\subsection{Without Regularization}
+
+\begin{align}
+&\underset{b}{\arg\min} \quad \epsilon^2 \nonumber \\
+\epsilon^2 &= \| Ab - c \|^2 \nonumber \\
+&= (Ab - c)^T(Ab - c) \nonumber \\
+&= (b^TA^T - c^T)(Ab - c) \nonumber \\
+&= b^TA^TAb - b^TA^Tc - c^TAb + c^Tc \nonumber \\
+&= b^TA^TAb - 2c^TAb + c^Tc \label{eqn:equation1}
+\end{align}
+
+We have  $b^TA^Tc = c^TAb$ because both of them are identical scalar variables. Differentiating Equation \ref{eqn:equation1}, we have
+
+\begin{align}
+\frac{\partial \epsilon^T\epsilon}{\partial b} 
+	&= \frac{\partial b^TA^TAb - 2c^TAb + c^Tc}{\partial b} \nonumber \\
+&= -2A^Tc + 2A^TAb \label{eqn:differentation1}\\
+&\text{Set Equation \ref{eqn:differentation1} to 0} \nonumber \\ 
+0 &= 2A^TAb - 2A^Tc \nonumber \\
+b &= (A^TA)^{-1}A^Tc
+\end{align}
+
+\textbf{Notes}
+
+By definition, $\frac{\partial b^TVb}{\partial b} = (V + V^T)b$. But since $A^TA$ is symmetric, Equation \ref{eqn:differentation1} reduces the term to $2A^TAb$.
+
+\subsection{With Regularization}
+
+With the regularization term, $\lambda\|b\|^2_2$, the minimization problem becomes
+
+\begin{align}
+&\underset{b}{\arg\min} \quad \epsilon^2 \nonumber \\
+\epsilon^2 &= \| Ab - c \|^2 + \lambda \| b \|^2 \nonumber \\
+&= (Ab - c)^T(Ab - c) + \lambda b^Tb \nonumber \\
+&= (b^TA^T - c^T)(Ab - c) + \lambda b^Tb \nonumber \\
+&= b^TA^TAb - b^TA^Tc - c^TAb + c^Tc + \lambda b^Tb \nonumber \\
+&= b^TA^TAb - 2c^TAb + c^Tc + \lambda b^Tb \label{eqn:equation2}
+\end{align}
+
+Differentiating Equation \ref{eqn:equation2}, we have
+
+\begin{align}
+\frac{\partial \epsilon^T\epsilon}{\partial b} 
+	&= \frac{\partial b^TA^TAb - 2c^TAb + c^Tc + \lambda b^Tb}
+		{\partial b} \nonumber \\
+&= -2A^Tc + 2A^TAb + \lambda b \label{eqn:differentation2}\\
+&\text{Set Equation \ref{eqn:differentation2} to 0} \nonumber \\ 
+0 &= 2A^TAb - 2A^Tc + \lambda b \nonumber \\
+b &= (A^TA + \lambda I)^{-1}A^Tc \label{eqn:diff_final_2}
+\end{align}
+
+\textbf{Notes} 
+
+While in Equation \ref{eqn:diff_final_2} we should have taken the term to be $0.5\lambda I$ to be precise, we have chosen not to do so as $\lambda$ is a constant hyper-parameter. We can thus allow $0.5$ to be absorbed into the hyper-parameter with no change to the consistency of Equation \ref{eqn:diff_final_2}.
+
+\end{document}

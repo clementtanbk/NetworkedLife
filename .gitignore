@@ -1,1 +1,16 @@
+# Python and R files
+*/__pycache__/
 .RHistory
+*/.RHistory
+
+# IDE Folders
+*/.vscode/*
+.idea/
+*/idea/
+
+# Tex Files
+*.aux
+*.bbl
+*.blg
+*.synctex.gz
+*.log
