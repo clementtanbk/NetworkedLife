@@ -6,8 +6,8 @@ author:
 - Clement Tan   (1000948)
 date: '`r format(Sys.time(), "%d %B %Y")`'
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -138,13 +138,19 @@ F =
     0 & 0.5 & 0.5 \\
     0.5 & 0 & 0.5 \\
     0.5 & 0.5 & 0
-  \end{bmatrix} \\
+  \end{bmatrix} 
+\]
+
+\[
 DF = 
   \begin{bmatrix}
     0 & 0.5 & 0.5 \\
     1 & 0 & 1 \\
     0.5 & 0.5 & 0
-  \end{bmatrix} \\
+  \end{bmatrix} 
+\]
+
+\[
 \text{eigenvalues, } \lambda = [ 1.2808, -7.808, -0.5 ]
 \]
 
@@ -181,7 +187,9 @@ n =
   \begin{bmatrix}
   0.3 \\ 0.3
   \end{bmatrix}
-\\
+\]
+
+$$
 V = 
   \begin{bmatrix}
   \frac{4 \cdot 0.3}{2}  \\ 
@@ -191,7 +199,9 @@ V =
   \begin{bmatrix}
   0.6  \\ 0.3
   \end{bmatrix}
-\\
+$$
+
+$$
 (I - DF) = 
   \begin{bmatrix}
   1  & 0 \\
@@ -201,7 +211,9 @@ V =
   \begin{bmatrix}
   4 & 0 \\ 
   0 & 2
-  \end{bmatrix}
+  \end{bmatrix} 
+$$
+$$
   \begin{bmatrix}
   0 & \frac{0.5}{2} \\
   \frac{0.5}{2} & 0
@@ -211,23 +223,30 @@ V =
   1 & -1 \\
   -0.5 & 1
   \end{bmatrix}
-\]
+$$
 
 Linear optimization program is thus given by
 \[
-\min \mathbf{1}^TP \\
-s.t. \\
-(I - DF) P \geq V \\
+\min \mathbf{1}^TP
+\]
+\[
+s.t.
+\]
+\[
+(I - DF) P \geq V
+\]
+\[
 P \geq \mathbf{0}
-\\
 \]
 
 Therefore, the boundaries are given by
 
-\[
-p_1 - p_2 \geq 0.6 \\
+$$
+p_1 - p_2 \geq 0.6
+$$
+$$
 -0.5 p_1 + p_2 \geq 0.3
-\]
+$$
 
 ```{r, echo=FALSE, warning=FALSE}
 p1 = seq(1, 5, length=1000)
