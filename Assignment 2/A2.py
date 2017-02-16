@@ -61,6 +61,7 @@ for i in range(len(R)): # loop through rows first, which represents users
 
 # Solve for b (users + movies concatenated)
 b = la.lstsq(A, c)[0]
+print(b)
 
 k = 0
 rHat_1 = np.zeros_like(R)
