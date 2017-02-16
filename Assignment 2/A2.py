@@ -45,7 +45,7 @@ labels = np.zeros((N_datapoints, 1))
 i = 0
 for r in R.ravel():
     if not np.isnan(r):
-        c = r - MEAN_RATING
+        c[i] = r - MEAN_RATING
         i += 1
 
 # Initialize A matrix
@@ -74,8 +74,8 @@ for i, j in product(range(N_Users), range(N_Movies)):
         rHat_1[i, j] = clean(preds[k])
         k += 1 
 
-print("Part 1 MSE: %.3f" % MSE(rHat_1, R))
-
+print("Part 1")
+print("MSE: %.3f" % MSE(rHat_1, R), end='\n\n')
 
 # Part 2
 
@@ -122,8 +122,9 @@ for i, j in product(range(N_Users), range(N_Movies)):
     
     rHat_2[i, j] = clean(value)
 
+print("Part 2")
 print("Neighbours: \n", D)
-print("Part 2 MSE: %.3f" % MSE(rHat_2, R))
+print("MSE: %.3f" % MSE(rHat_2, R), end='\n\n')
 
 
 # Part 3
@@ -138,21 +139,24 @@ A = np.array([
 c = np.array([2, 1, 1, 3])
 b = la.lstsq(A, c)[0]
 
-print("Without Regularization, b = \n%s \nMSE: %.5f" % (str(b), MSE(A.dot(b), c)))
+print("Part 3")
+print("Without Regularization")
+print("Standard Formulation, b = %s \tMSE: %.5f" % (str(b), MSE(A.dot(b), c)))
 
 # Alternative solution to least square without regularization
 b1 = la.inv(A.T.dot(A)).dot(A.T).dot(c)
-print("Without Regularization, b = \n%s \nMSE: %.5f" % (str(b1), MSE(A.dot(b1), c)))
-
+print("Alternative Formuation, b = %s \tMSE: %.5f" % (str(b1), MSE(A.dot(b1), c)), end="\n\n")
 
 # Solution to ridge regression
 
 size = A.T.dot(A).shape[0]
 results = []
 
+print("With Regularization")
 for l in np.arange(0, 5.1, 0.2):
     # l refers to the hyper parameter lambda
+
     b2 = la.inv(A.T.dot(A) + l * np.identity(size)).dot(A.T).dot(c)
     rmse = MSE(A.dot(b2), c)
-    print("With Regularization (lambda = %.1f), b = \n%s \nMSE: %.4f" % (l, str(b2), rmse))
+    print("Lambda = %.1f, b = %s \tMSE: %.4f" % (l, str(b2), rmse))
     results.append((l, rmse))
