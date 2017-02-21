@@ -97,12 +97,12 @@ Note that the utility (payoff) is determined by the true valuation of the advert
 	\label{Q2.1 Bidding History}
 \end{table}
 
-The winning bidder is bidder 3 and she pays \$17.50.
+The winning bidder is bidder 3 and she pays \$17.50. We assume that the proxy is done by eBay because it was hinted as such in the text. If that were the case, we thus make the assumption that since eBay knows the maximum limit of the proxy, when someone bids above it, it will automatically use the limit of the proxy as the "second-highest" bid. Thus price paid by the highest bidder will be the "second-highest" bid plus the increment.
 
 \newpage
 \section{More Items than Bidders}
 
-We assume that there is a minimum fee $M \geq 0$ to start the bid. 
+We assume that there is a minimum fee $M \geq 0$ to start the bid. We also assume that $b_i$ is bid corresponding to the price that player $i$ is willing to pay for each click on the webpage.
 
 \subsection{Alice's Payoff}
 
@@ -110,8 +110,8 @@ Alice's payoff, $p_1$ is defined by
 \begin{align*}
 	p_1 = 
 	\begin{cases} 
-		b_2r & b1 \geq b2 \qquad  \text{(Case 1)} \\
-		Mr & b1 < b2 \qquad \text{(Case 2)}
+		500(r - b_2) & b1 \geq b2 \qquad  \text{(Case 1)} \\
+		300(r - M) & b1 < b2 \qquad \text{(Case 2)}
 	\end{cases}
 \end{align*}
 
@@ -135,6 +135,48 @@ The reason being:
 
 You see in each of the following situation, if Alice does not bid at her true valuation, she does not get better off, only worse off. Thus the dominant strategy is to bid at her valuation.
 
+\subsection*{In Depth Reason}
+
+If we assume a minimum fixed cost of $M \geq 0$, 2 players and 3 spots, a rational Alice will realize the following.
+
+\begin{enumerate}
+	\item She is definitely going to get a slot. The "worst" slot is slot 2
+	\item The minimum guaranteed reward she will receive is $P_m = 300(r - M)$, 300 being the click rate of slot 2.
+	\item The upper bound for the bid is given by 
+	\begin{align*}
+		500 (r - T) &= 300(r - M) \\
+		T &= r - \frac{3(r - M)}{5}
+	\end{align*}
+	We will take $T$ to represent her True Bid.
+\end{enumerate}
+
+If Alice wants to optimize her profits, she will place a bid of $T$ thus ensuring that $500 (r - T) = 300(r - M)$.
+
+\subsubsection*{Bidding Her True Bid, Alice Wins Slot 1}
+
+Suppose Alice bids greater than her True Bid. Since her bid is still greater than Bob's bid, she will still win that slot and get an effective payout of $500(r - b_2) > 500(r - T) \geq P_m$ since $T > b_2$.
+
+If she lowers her bid, 2 things can happen
+
+\begin{enumerate}
+	\item She lowers her bid but her bid is still higher than Bob's. In this case, her payout is still going to be the same.
+	\item She lowers her bid and her bid ends up smaller than Bob's.
+\end{enumerate}
+
+In the second case, Alice's new payout is $P_m = 300(r - M)$ because she lost the first slot and will get the second slot. However, had her bid been truthful, she would have gotten a payout of $500(r - b_2) > P_m $ since $T > b_2$. Thus in this instance, she will always be better off submitting a truthfully in this first instance.
+
+\subsubsection*{Bidding Her True Bid, Alice Wins Slot 2}
+
+Suppose Alice lowers her bid further. Since her bid is still lower than Bob's bid, she'll still get slot 2 and her effective payout will still be the same. 
+
+If she increases her bid, 2 things can happen
+
+\begin{enumerate}
+	\item She increases her bid but her bid is still lower than Bob's.  In this case, her payout is still going to be the same.
+	\item She increases her bid and her bid ends up larger than Bob's.
+\end{enumerate}
+
+In the second case, Alice's new payout is $500(r - b_2)$. Since we know that $b_2 > T$ and $500(r - b_2) \leq 500(r - T) = P_m$, Alice will thus have a payout lower than $P_m$ which she is guaranteed by submitting her True Bid and getting the second slot.
 
 \newpage
 \section{Movie Seats Bidding}
