@@ -38,5 +38,9 @@ def get_train_test_split(raw=False) -> (np.array, np.array, np.array, np.array):
     return x_train, y_train, x_test, y_test
 
 
-def RMSE(y_pred: np.array, y_true: np.array):
-    return np.sqrt(np.mean((y_pred - y_true) ** 2))
+def RMSE(pred: np.array, true: np.array):
+    return np.sqrt(np.mean((pred - true) ** 2))
+
+
+def accuracy(pred: np.array, true: np.array):
+    return np.mean(pred == true)

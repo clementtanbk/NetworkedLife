@@ -34,18 +34,10 @@ class LinearRegression:
     def get_params(self):
         """
         Returns the trained model parameters. We can take r_bar to be the bias term.
-        :return: model term coefficients, bias (intercept) term
+        :return: model coefficients, bias, reg
         """
-        return self.b, self.r_bar
 
+        if self.b is None:
+            raise RuntimeError("Model is not yet trained, Fit some data first")
 
-if __name__ == '__main__':
-    x, y, x_test, y_test = utils.get_train_test_split()
-
-    for l2 in (0, 0.001, 0.01, 0.1, 1, 5):
-        lm = LinearRegression(alpha=l2).fit(x, y)
-        pred = lm.predict(x_test)
-
-        print(utils.RMSE(pred, y_test))
-        print(utils.RMSE(lm.predict(x), y))
-        print()
+        return self.b, self.r_bar, self.alpha
