@@ -1,13 +1,15 @@
 import numpy as np
-import projectLib as lib
+import Project.Reference.projectLib as lib
 
 # set highest rating
 K = 5
+
 
 def ratingsPerMovie(training):
     movies = [x[0] for x in training]
     u_movies = np.unique(movies).tolist()
     return np.array([[i, movie, len([x for x in training if x[0] == movie])] for i, movie in enumerate(u_movies)])
+
 
 def getV(ratingsForUser):
     ### TO IMPLEMENT ###
@@ -17,17 +19,20 @@ def getV(ratingsForUser):
     #   otherwise it is 0
     return None
 
+
 def getInitialWeights(m, F, K):
     # m is the number of visible units
     # F is the number of hidden units
     # K is the highest rating (fixed to 5 here)
     return np.random.normal(0, 0.1, (m, F, K))
 
+
 def sig(x):
     ### TO IMPLEMENT ###
     # x is a real vector of size n
     # ret should be a vector of size n where ret_i = sigmoid(x_i)
     return None
+
 
 def visibleToHiddenVec(v, w):
     ### TO IMPLEMENT ###
@@ -37,12 +42,14 @@ def visibleToHiddenVec(v, w):
     # ret should be a vector of size F
     return None
 
+
 def hiddenToVisible(h, w):
     ### TO IMPLEMENT ###
     # h is a binary vector of size F
     # w is an array of size m x F x 5
     # ret should be a matrix of size m x 5
     return None
+
 
 def probProduct(v, p):
     # v is a matrix of size m x 5
@@ -55,6 +62,7 @@ def probProduct(v, p):
                 ret[i, j, k] = v[i, k] * p[j]
     return ret
 
+
 def sample(p):
     # p is a vector of real numbers between 0 and 1
     # ret is a vector of same size as p, where ret_i = Ber(p_i)
@@ -62,6 +70,7 @@ def sample(p):
     # parameter p_i to obtain ret_i
     samples = np.random.random(p.size)
     return np.array(samples > p, dtype=int)
+
 
 def getPredictedDistribution(q, v, w, wq):
     ### TO IMPLEMENT ###
@@ -76,6 +85,7 @@ def getPredictedDistribution(q, v, w, wq):
     # ret is a vector of size 5
     return None
 
+
 def predictRatingMax(ratingDistribution):
     ### TO IMPLEMENT ###
     # ratingDistribution is a probability distribution over possible ratings
@@ -85,6 +95,7 @@ def predictRatingMax(ratingDistribution):
     # We decide here that the predicted rating will be the one with the highest probability
     return None
 
+
 def predictRatingExp(ratingDistribution):
     ### TO IMPLEMENT ###
     # ratingDistribution is a probability distribution over possible ratings
@@ -93,6 +104,7 @@ def predictRatingExp(ratingDistribution):
     # that returns a rating from the distribution
     # We decide here that the predicted rating will be the expectation of the ratingDistribution
     return None
+
 
 def predictMovieForUser(q, user, W, training, predictType="exp"):
     # movie is movie idx
@@ -106,7 +118,9 @@ def predictMovieForUser(q, user, W, training, predictType="exp"):
     else:
         return predictRatingExp(ratingDistribution)
 
+
 def predict(movies, users, W, training, predictType="exp"):
     # given a list of movies and users, predict the rating for each (movie, user) pair
     # used to compute RMSE
-    return [predictMovieForUser(movie, user, W, training, predictType=predictType) for (movie, user) in zip(movies, users)]
+    return [predictMovieForUser(movie, user, W, training, predictType=predictType) for (movie, user) in
+            zip(movies, users)]

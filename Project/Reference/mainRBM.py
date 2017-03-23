@@ -1,7 +1,7 @@
 import numpy as np
-import rbm as rbm
+import Project.Reference.rbm as rbm
 import random
-import projectLib as lib
+import Project.Reference.projectLib as lib
 
 full = lib.getTrainingData()
 # You could also try with the chapter 4 data
@@ -24,7 +24,7 @@ W = rbm.getInitialWeights(fullStats["n_movies"], F, K)
 
 for epoch in range(epochs):
     # we get a random user to apply gradient descent
-    user = trStats["u_users"][random.randint(0, len(trStats["u_users"])-1)]
+    user = trStats["u_users"][random.randint(0, len(trStats["u_users"]) - 1)]
 
     # get the ratings of that user
     ratingsForUser = lib.getRatingsForUser(user, training)
@@ -68,9 +68,9 @@ for epoch in range(epochs):
         vl_r_hat = rbm.predict(vlStats["movies"], vlStats["users"], W, hidBias, visBias, training)
         vlRMSE = lib.rmse(vlStats["ratings"], vl_r_hat)
 
-        print "### EPOCH %d ###" % epoch
-        print "Training loss = %f" % trRMSE
-        print "Validation loss = %f" % vlRMSE
+        print("### EPOCH %d ###" % epoch)
+        print("Training loss = %f" % trRMSE)
+        print("Validation loss = %f" % vlRMSE)
 
 ### END ###
 # This part you can write on your own
