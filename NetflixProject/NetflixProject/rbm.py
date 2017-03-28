@@ -2,6 +2,7 @@ import numpy as np
 import projectLib as lib
 import math
 import rbm
+#import bigfloat
 
 # set highest rating
 K = 5
@@ -38,9 +39,14 @@ def sig(x):
     # x is a real vector of size n
     # ret should be a vector of size n where ret_i = sigmoid(x_i)
     result = np.zeros(len(x))
-    for i in range(len(x)):
-        result[i] = 1.0/(1 + math.exp(-1*x[i]))
+    try:
+        for i in range(len(x)):
+            result[i] = 1.0/(1 + (math.exp(-1*x[i])))
 
+    #overflow error: math range error at epoch 357
+    except OverflowError:
+       ##print("overflow error, catching exception")
+       result[i] = 1.0/(1 + (math.exp(702)))
 
     return result
 
@@ -51,6 +57,7 @@ def visibleToHiddenVec(v, w):
     # w is a list of matrices of size m x F x 5
     # ret should be a vector of size F
     h_intm = np.tensordot(w.swapaxes(0,1), v, axes=([1,2],[0,1]))
+    #print(h_intm)
     h = sig(h_intm)
 
     return h
@@ -67,14 +74,14 @@ def hiddenToVisible(h, w):
     #   over possible ratings).
     #   We only do so when we predict the rating a user would have given to a movie.
     # w.shape = (M * F * 5)
-    v = np.zeros((len(w),len(w[0,0,:])))
+    v = np.zeros((len(w),len(w[0,0,:]))) # m * 5
     for i in range(len(w)):
         w_i = w[i,:,:] # F * 5
         k_values = np.tensordot(w_i.swapaxes(0,-1), h , axes = (1,0))
-        #v_i = softmax(k_values)
-        num = np.exp(k_values) # 5 * 1
-        den = np.sum(num)
-        v_i = num / den
+        v_i = softmax(k_values)
+        #num = np.exp(k_values) # 5 * 1
+        #den = np.sum(num)
+        #v_i = num / den
         v[i] = v_i
         #print(v)
 
