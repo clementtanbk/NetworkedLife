@@ -82,8 +82,9 @@ def hiddenToVisible(h, w):
     # w.shape = (M * F * 5)
     v = np.zeros((len(w),len(w[0,0,:]))) # m * 5
     for i in range(len(w)):
-        w_i = w[i,:,:] # F * 5
-        k_values = np.tensordot(w_i.swapaxes(0,-1), h , axes = (1,0))
+
+        w_i = w[i,:,:] # F * 5 weights for movie i
+        k_values = np.dot(w_i.T, h) 
         v_i = softmax(k_values)
         #num = np.exp(k_values) # 5 * 1
         #den = np.sum(num)
@@ -143,7 +144,8 @@ def getPredictedDistribution(v, w, wq):
     
     #unlearning
     sample_h = sample(v_h)
-    h_v = hiddenToVisible(sample_h,wq[np.newaxis,:,:]) #negative data
+    h_v = hiddenToVisible(sample_h,wq[np.newaxis,:,:]) #negative data for 1 movie
+     
     #print("h_v %s" %h_v)
     #ng = visibleToHiddenVec(h_v,wq[np.newaxis,:,:])
 
@@ -182,8 +184,8 @@ def predictRatingExp(ratingDistribution):
     return mean
 
 def predictMovieForUser(q, user, W, training, predictType="exp"):
-    # movie is movie idx
-    # user is user ID
+    # movie is movie idx q
+    # user is user ID user
     # type can be "max" or "exp"
     ratingsForUser = lib.getRatingsForUser(user, training)
     v = getV(ratingsForUser)

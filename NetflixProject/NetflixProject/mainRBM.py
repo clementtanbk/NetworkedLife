@@ -33,7 +33,7 @@ def executeRBM(F):
     negprods = np.zeros(W.shape) # m x F x 5
     
     file = open(str(F) + "results.txt",'w')
-    file.write("F = " + str(F) + "l = " + str(l) + " epochs_in_interval = " + str(epochs_in_interval) + \
+    file.write("F = " + str(F) + " l = " + str(l) + " epochs_in_interval = " + str(epochs_in_interval) + \
         "\ngradientLearningRate = " + str(gradientLearningRate) + "\n\n")
     for epoch in range(1, epochs + 1):
         if (epoch_count % epochs_in_interval == 0):
@@ -54,7 +54,11 @@ def executeRBM(F):
     
                 # get the weights associated to movies the user has seen
                 weightsForUser = W[ratingsForUser[:, 0], :, :] # W.shape = m x F x 5
-    
+                #if( F == 16 and user == 32 or F == 16 and user == 4):
+                #    print("user : %s" %user)
+                #    print(len(weightsForUser))
+                #    print(len(ratingsForUser))
+
                 ### LEARNING ###
                 # propagate visible input to hidden units
                 posHiddenProb = rbm.visibleToHiddenVec(v, weightsForUser)
@@ -75,9 +79,15 @@ def executeRBM(F):
     
                 # we average over the number of users
                 grad = gradientLearningRate * (posprods - negprods) / trStats["n_users"]
+
+                #ADDED REGULARIZATION#
                 reg_W = np.zeros(W.shape)
                 reg_W[ratingsForUser[:, 0], :, :] = weightsForUser
 
+                #if( F == 16 and user == 32):
+                     #print(user)
+                     #print(weightsForUser)
+               
                 W += (grad - (gradientLearningRate * l * reg_W))
     
             # Print the current RMSE for training and validation sets
@@ -90,7 +100,7 @@ def executeRBM(F):
             vl_r_hat = rbm.predict(vlStats["movies"], vlStats["users"], W, training)
             vlRMSE = lib.rmse(vlStats["ratings"], vl_r_hat)
     
-            print("### EPOCH %d ###" % epoch)
+            print("### F = %s EPOCH %d ###" % (F,epoch))
             print("Training loss = %f" % trRMSE)
             print("Validation loss = %f" % vlRMSE)
             file.write(str(epoch) + ",")
@@ -121,8 +131,8 @@ def main():
 
     ### Linear Regression ###
     file = open("linear_reg_results.txt",'w')
-    A = getA(training)
-    c = getc(rBar, trStats["ratings"])
+    A = lr.getA(training)
+    c = lr.getc(rBar, trStats["ratings"])
     
     for n in [-2,-1,0,1,2]:
         l = 10 ** -n
