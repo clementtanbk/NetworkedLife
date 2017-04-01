@@ -17,13 +17,14 @@ def ratingsPerMovie(training):
     u_movies = np.unique(movies).tolist()
     return np.array([[i, movie, len([x for x in training if x[0] == movie])] for i, movie in enumerate(u_movies)])
 
+#validated
 def getV(ratingsForUser):
     # ratingsForUser is obtained from the ratings for user library
     # you should return a binary matrix ret of size m x K, where m is the number of movies
     #   that the user has seen. ret[i][k] = 1 if the user
     #   has rated movie ratingsForUser[i, 0] with k stars
     #   otherwise it is 0
-    ret = np.zeros((len(ratingsForUser), K))
+    ret = np.zeros((len(ratingsForUser), K)) # no. of ratings x 5
     for i in range(len(ratingsForUser)):
         ret[i, ratingsForUser[i, 1]-1] = 1.0
     return ret
@@ -40,16 +41,21 @@ def sig(x):
     # ret should be a vector of size n where ret_i = sigmoid(x_i)
     result = np.zeros(len(x))
     try:
-        for i in range(len(x)):
-            result[i] = 1.0/(1 + (math.exp(-1*x[i])))
+        result = 1.0/(1+np.exp(-1*x))
 
     #overflow error: math range error at epoch 357
+    except RuntimeError:
+        print(x)
+
     except OverflowError:
-       ##print("overflow error, catching exception")
-       result[i] = 1.0/(1 + (math.exp(702)))
+       print("overflow error, catching exception")
+
+       for i in range(len(x)):
+           result[i] = 1.0/(1 + (math.exp(702)))
 
     return result
 
+#for each user
 def visibleToHiddenVec(v, w):
     ### TO IMPLEMENT ###
     # v is a matrix of size m x 5. Each row is a binary vector representing a rating
@@ -62,7 +68,7 @@ def visibleToHiddenVec(v, w):
 
     return h
 
-
+#for each user
 def hiddenToVisible(h, w):
     ### TO IMPLEMENT ###
     # h is a binary vector of size F
@@ -94,6 +100,7 @@ def hiddenToVisible(h, w):
 #b = np.array([1,2])
 #print(hiddenToVisible(b,a))
 
+#for each user
 def probProduct(v, p):
     # v is a matrix of size m x 5
     # p is a vector of size F, activation of the hidden units
@@ -158,7 +165,7 @@ def predictRatingMax(ratingDistribution):
     # This function is one of two you are to implement
     # that returns a rating from the distribution
     # We decide here that the predicted rating will be the one with the highest probability
-    max_rating = np.max(ratingDistribution)
+    max_rating = np.argmax(ratingDistribution) + 1
 
     return None
 

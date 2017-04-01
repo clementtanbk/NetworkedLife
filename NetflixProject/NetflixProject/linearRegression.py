@@ -61,8 +61,16 @@ def predict(movies, users, rBar, b):
 # b = param(A, c)
 
 # Regularised version
-l = 1
-b = param_reg(A, c, l)
+l = 10
 
-print ("Linear regression, l = %f" % l)
-print (lib.rmse(predict(trStats["movies"], trStats["users"], rBar, b), trStats["ratings"]))
+
+#print ("Linear regression, l = %f" % l)
+#print (lib.rmse(predict(trStats["movies"], trStats["users"], rBar, b), trStats["ratings"]))
+file = open("linear_reg_results.txt",'w')
+for n in [-2,-1,0,1,2]:
+    l = 10 ** -n
+    b = param_reg(A, c, l)
+    file.write("l = " + str(l) + " \n")
+    file.write(str(lib.rmse(predict(trStats["movies"], trStats["users"], rBar, b), trStats["ratings"])) + "\n\n")
+
+file.close()
