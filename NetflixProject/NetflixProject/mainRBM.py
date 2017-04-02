@@ -14,19 +14,18 @@ trStats = lib.getUsefulStats(training)
 vlStats = lib.getUsefulStats(validation)
 
 # F is the number of hidden units
-def executeRBM(F):
+#args = (F, gradientLearningRate, l, epochs_in_interval, multiplier)
+def executeRBM(args):
     K = 5
 
     # SET PARAMETERS HERE!!!
     # number of hidden units
-    #F = 10
-    epochs = 150
-    epochs_in_interval = 25
-
-    gradientLearningRate = 0.1  
-    l = 0.01
-
-    epoch_count = 1    
+    F = args[0]
+    epochs = 500
+    epochs_in_interval = args[3]
+    multiplier = args[4]
+    gradientLearningRate = args[1]
+    l = args[2] 
 
     W = rbm.getInitialWeights(trStats["n_movies"], F, K) # no.ofusers * m * F * 5
     posprods = np.zeros(W.shape) # m x F x 5
@@ -36,8 +35,10 @@ def executeRBM(F):
     file.write("F = " + str(F) + " l = " + str(l) + " epochs_in_interval = " + str(epochs_in_interval) + \
         "\ngradientLearningRate = " + str(gradientLearningRate) + "\n\n")
     for epoch in range(1, epochs + 1):
-        if (epoch_count % epochs_in_interval == 0):
+        if (epoch % epochs_in_interval == 0):
             gradientLearningRate *= 10 ** -1
+            gradientLearningRate = round(gradientLearningRate,10)
+            epochs_in_interval *= multiplier
 
         # in each epoch, we'll visit all users in a random order
         visitingOrder = np.array(trStats["u_users"]) # 1787 ratings
@@ -101,11 +102,15 @@ def executeRBM(F):
             vlRMSE = lib.rmse(vlStats["ratings"], vl_r_hat)
     
             print("### F = %s EPOCH %d ###" % (F,epoch))
+            print("Gradient Learning Rate: %s " %gradientLearningRate)
+            print("Epochs in interval: %s " %epochs_in_interval)
             print("Training loss = %f" % trRMSE)
             print("Validation loss = %f" % vlRMSE)
             file.write(str(epoch) + ",")
             file.write(str(trRMSE) + ",")
-            file.write(str(vlRMSE) + "\n")
+            file.write(str(vlRMSE) + ",")
+            file.write(str(gradientLearningRate) + ",")
+            file.write(str(epochs_in_interval) + "\n")
             file.flush()
 
         except Exception as e:
@@ -117,9 +122,12 @@ def executeRBM(F):
 
 def main():
  
-    # Initialise all our arrays
+    # Process on 3 cores for the 3 executions
     with Pool(3) as p:
-        p.map(executeRBM,[16 , 32 , 64])
+        # executeRBM(F, gradientLearningRate, l, epochs_in_interval, multiplier):
+        p.map(executeRBM,[(16 , 0.01, 0.01, 5, 3) , 
+                          (32 , 0.01, 0.01, 5, 4),
+                          (64 , 0.001, 0.1, 15, 3)])
 
 
     ### END ###

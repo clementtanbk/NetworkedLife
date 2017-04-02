@@ -43,15 +43,19 @@ def sig(x):
     try:
         result = 1.0/(1+np.exp(-1*x))
 
-    #overflow error: math range error at epoch 357
-    except RuntimeError:
-        print(x)
+    #overflow error: math range error at epoch 35
 
     except OverflowError:
        print("overflow error, catching exception")
 
        for i in range(len(x)):
-           result[i] = 1.0/(1 + (math.exp(702)))
+           if(i >= 702):
+               result[i] = 1.0/(1 + (math.exp(702)))
+           else:
+               result[i] = 1.0/(1 + (math.exp(i))) #max exp value is 702
+
+    except RuntimeError:
+        print(x)
 
     return result
 
