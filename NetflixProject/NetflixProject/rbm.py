@@ -46,16 +46,18 @@ def sig(x):
     #overflow error: math range error at epoch 35
 
     except OverflowError:
-       print("overflow error, catching exception")
+        print("overflow error, catching exception")
 
-       for i in range(len(x)):
-           if(i >= 702):
-               result[i] = 1.0/(1 + (math.exp(702)))
-           else:
-               result[i] = 1.0/(1 + (math.exp(i))) #max exp value is 702
+        for i in range(len(x)):
+            if(i >= 702):
+                result[i] = 1.0/(1 + (math.exp(702)))
+            else:
+                result[i] = 1.0/(1 + (math.exp(i))) #max exp value is 702
+        #raise
 
     except RuntimeError:
         print(x)
+        #raise
 
     return result
 
@@ -68,7 +70,12 @@ def visibleToHiddenVec(v, w):
     # ret should be a vector of size F
     h_intm = np.tensordot(w.swapaxes(0,1), v, axes=([1,2],[0,1]))
     #print(h_intm)
-    h = sig(h_intm)
+    try:
+        h = sig(h_intm)
+
+    except RuntimeError:
+        print(x)
+        
 
     return h
 
