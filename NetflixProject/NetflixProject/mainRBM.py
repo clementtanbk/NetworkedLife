@@ -184,9 +184,9 @@ def main():
     # Process on 3 cores for the 3 executions
     with Pool(3) as p:
         # executeRBM(F, gradientLearningRate, l, epochs_in_interval, multiplier, process):
-        p.map(executeRBM,[(16 , 0.01, 0.001, 5, 2,1) , 
-                          (16 , 0.01, 0.0005, 5, 3,2),
-                          (16 , 0.005, 0.0005, 5, 3,3)])
+        p.map(executeRBM,[(9 , 0.005, 0.0005, 5, 3,1) , 
+                          (10 , 0.005, 0.0005, 5, 3,2),
+                          (12 , 0.005, 0.0005, 5, 3,3)])
 
 
     ### END ###
