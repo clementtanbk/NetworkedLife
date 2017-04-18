@@ -153,12 +153,12 @@ x_a^* = 0 \qquad x_1^* = x_2^* = C
 
 Given that there are $n$ bottom users and assuming each link has the same capacity $C$,
 \begin{description}
-\item[$U(x) = \log(x)$] User A will receive $\frac{2}{3}$ of the bandwidth each user 1...n receives.
-\item[$U(x) = a \arctan (bx)$] User A will receive bandwidth proportional to $\sqrt{\frac{x_i^2 - 1}{2}}$ of each user 1...n
+\item[$U(x) = \log(x)$] User A will receive $\frac{C}{n + 1}$ of the bandwidth . Users 1...n receive $\frac{Cn}{n+1}$ each.
+\item[$U(x) = a \arctan (bx)$] User A will receive bandwidth proportional to $\sqrt{\frac{x_i^2 - 1}{n}}$. Users 1...n receive $C - \sqrt{\frac{x_i^2 - 1}{n}}$ each
 \item[$U(x) = x$] User A will not get any bandwidth while all users 1... n will receive all the bandwidth they individually require.
 \end{description}
 
-I believe the allocations with $U(x) = \log(x)$ and $U(x) = a \arctan (bx)$ are still fair as they ensure every user gets a share of the network.
+Based on the consensus on fairness, we believe the allocations with $U(x) = \log(x)$ and $U(x) = a \arctan (bx)$ are still fair as they ensure every user gets a share of the network.
 
 
 \section{A closer look at TCP}
