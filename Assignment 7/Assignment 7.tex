@@ -16,7 +16,7 @@ citestyle=apa,
 sorting=ynt]{biblatex}
 
 \addbibresource{}
-\graphicspath{}
+\graphicspath{ {Images/} }
 
 \title{Assignment 7}
 \author{
@@ -164,16 +164,11 @@ Based on the consensus on fairness, we believe the allocations with $U(x) = \log
 \section{A closer look at TCP}
 
 By normal, we mean that the system is receiving the expected acknowledgement for each packet it sends.
-\begin{description}
-\item[T=0] 17 $\leq$ \textit{SSThreshold} $\leq$ 32 and cwind = 0
-\item[T=1 to 6] System functions normally. \textit{cwind} doubles at each time-step eventually reaching 32. At T=6, since it has exceeded the \textit{SSThreshold}, its growth rate becomes linear with a step-size of 1
-\item[T=7 to 15] System functions normally. Linear growth rate with a step size of 1. 
-\item[T=16] The system has received 3 duplicate acknowledgements.
-\item[T=17] The system reduces \textit{SSThreshold} and \textit{cwind} by half. Growth rate is linear since \textit{cwind} $\geq$ \textit{SSThreshold}
-\item[T=18 to 21] System functions normally. Linear growth rate with step size of 1.  
-\item[T=22] There was a timeout event. The \textit{SSThreshold} value is halved and \textit{cwind} resets to 0
-\item[T=23 to 26] System functions normally. \textit{cwind} grows exponentially.
-\end{description}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{f1.png}
+\end{figure}
 
 \section{Long Fat Pipes}
 
